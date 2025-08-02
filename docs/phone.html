@@ -2,13 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Three.js sin módulos</title>
+  <title>Modelo 3D con Three.js (Funcional)</title>
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+
+  <!-- ✅ Three.js versión r149 (la última antes de quitar GLTFLoader global) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
 <script>
@@ -23,6 +25,7 @@
   const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
   scene.add(light);
 
+  // ✅ Aquí sí funciona el constructor GLTFLoader
   const loader = new THREE.GLTFLoader();
   loader.load(
     'https://vikingantonio.github.io/bddCards/assets/flyer2.gltf',
@@ -49,13 +52,15 @@
   animate();
 
   window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 </script>
 </body>
 </html>
+
+
 
 
 
