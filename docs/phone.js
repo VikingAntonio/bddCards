@@ -32,7 +32,7 @@ scene.add(ambientLight);
 // Cargar el modelo GLTF
 const loader = new GLTFLoader();
 loader.load(
-  'https://vikingantonio.github.io/bddCards/assets/flyer2.gltf',
+  './assets/flyer2.gltf',
   (gltf) => {
     scene.add(gltf.scene);
   },
@@ -56,4 +56,5 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
