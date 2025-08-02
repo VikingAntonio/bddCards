@@ -1,0 +1,9 @@
+/* Estilos básicos para que el canvas ocupe toda la pantalla */
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+}
