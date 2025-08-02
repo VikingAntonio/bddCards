@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Three.js Modelo 3D Básico</title>
+  <meta charset="UTF-8">
+  <title>Modelo 3D con Three.js</title>
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
@@ -15,7 +15,7 @@
 
   // Escena y cámara
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 2;
 
   // Renderer
@@ -23,37 +23,46 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Luz básica
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(1, 1, 1).normalize();
+  // Luz
+  const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
   scene.add(light);
 
-  // Cargar modelo GLTF (reemplaza el URL por el tuyo)
+  // Cargar modelo GLTF
   const loader = new GLTFLoader();
-  loader.load('https://vikingantonio.github.io/bddCards/assets/flyer2.gltf', (gltf) => {
-    scene.add(gltf.scene);
-  }, undefined, (error) => {
-    console.error('Error cargando el modelo:', error);
-  });
+  loader.load(
+    'https://vikingantonio.github.io/bddCards/assets/flyer2.gltf',
+    (gltf) => {
+      scene.add(gltf.scene);
+      gltf.scene.rotation.y = Math.PI; // voltear si se ve al revés
+    },
+    undefined,
+    (error) => {
+      console.error('Error al cargar el modelo:', error);
+    }
+  );
 
-  // Animación simple para rotar el modelo
+  // Animación
   function animate() {
     requestAnimationFrame(animate);
-    if (scene.children.length > 1) { // para esperar que cargue el modelo
-      scene.children[1].rotation.y += 0.01;
-    }
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        child.rotation.y += 0.005;
+      }
+    });
     renderer.render(scene, camera);
   }
   animate();
 
-  // Ajustar tamaño al redimensionar ventana
+  // Ajuste en resize
   window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 </script>
 </body>
 </html>
+
+
 
 
