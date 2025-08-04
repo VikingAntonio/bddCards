@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Video en GLTF plano (Celular)</title>
+  <title>Video corregido en GLTF</title>
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
@@ -37,11 +37,11 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// Iluminación mejorada
+// Iluminación
 scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-const dir = new THREE.DirectionalLight(0xffffff, 1.0);
-dir.position.set(5, 10, 7);
-scene.add(dir);
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
 scene.add(new THREE.HemisphereLight(0xaaaaaa, 0x444444, 0.6));
 
 // Video
@@ -57,8 +57,9 @@ videoTexture.encoding = THREE.sRGBEncoding;
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 videoTexture.format = THREE.RGBAFormat;
+videoTexture.flipY = false; // ✅ Corrige la orientación vertical
 
-// Cargar tu modelo
+// Modelo GLTF
 const loader = new GLTFLoader();
 loader.load(
   'https://vikingantonio.github.io/bddCards/assets/celular.gltf',
@@ -99,6 +100,8 @@ animate();
 
 </body>
 </html>
+
+
 
 
 
