@@ -9,78 +9,100 @@
   </style>
 </head>
 <body>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js",
-      "GLTFLoader": "https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/loaders/GLTFLoader.js"
-    }
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js",
+    "GLTFLoader": "https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/loaders/GLTFLoader.js",
+    "OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/controls/OrbitControls.js"
   }
-  </script>
+}
+</script>
 
-  <script type="module">
-    import * as THREE from "three";
-    import { GLTFLoader } from "GLTFLoader";
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "GLTFLoader";
+import { OrbitControls } from "OrbitControls";
 
-    // Escena, cámara y render
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 1.5, 3);
+// Escena y cámara
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 1.5, 3);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+// Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+document.body.appendChild(renderer.domElement);
 
-    const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
-    light.position.set(0, 10, 0);
-    scene.add(light);
+// Controles orbitales para girar el modelo
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-    // Elemento de vídeo como textura
-    const video = document.createElement('video');
-    video.src = 'https://menutechdeveloper.github.io/bddImg/assets/iconos/phone.mp4';
-    video.crossOrigin = 'anonymous';
-    video.loop = true;
-    video.muted = true;
-    video.play();
+// Luces
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
 
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.encoding = THREE.sRGBEncoding;
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBAFormat;
+// Video
+const video = document.createElement('video');
+video.src = 'https://menutechdeveloper.github.io/bddImg/assets/iconos/phone.mp4';
+video.crossOrigin = 'anonymous';
+video.loop = true;
+video.muted = true;
 
-    // Carga del modelo GLTF
-    const loader = new GLTFLoader();
-    loader.load(
-      'https://vikingantonio.github.io/bddCards/assets/scene.gltf',
-      gltf => {
-        const model = gltf.scene;
-        const meshPantalla = model.getObjectByName('Ruby_r0_396078_g0_501961_b0_65098_a1_texture_path');
-        if (meshPantalla) {
-          meshPantalla.material = new THREE.MeshBasicMaterial({ map: videoTexture });
-        } else {
-          console.warn('No se encontró el mesh de la pantalla');
-        }
-        scene.add(model);
-        animate();
-      },
-      undefined,
-      err => console.error(err)
-    );
+video.play().catch((e) => console.warn('Video play error:', e));
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.encoding = THREE.sRGBEncoding;
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+videoTexture.format = THREE.RGBAFormat;
 
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
+// Cargar modelo GLTF
+const loader = new GLTFLoader();
+loader.load(
+  'https://vikingantonio.github.io/bddCards/assets/scene.gltf',
+  (gltf) => {
+    const model = gltf.scene;
+
+    // Buscar el mesh de la pantalla
+    const meshPantalla = model.getObjectByName('Ruby_r0_396078_g0_501961_b0_65098_a1_texture_path');
+    if (meshPantalla) {
+      meshPantalla.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+      meshPantalla.material.needsUpdate = true;
+    } else {
+      console.warn("No se encontró el mesh de la pantalla.");
     }
-  </script>
+
+    scene.add(model);
+  },
+  undefined,
+  (error) => console.error('Error al cargar modelo:', error)
+);
+
+// Responsive
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Animación
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+
 </body>
 </html>
+
+
 
 
 
