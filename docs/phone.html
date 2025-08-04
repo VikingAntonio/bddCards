@@ -51,7 +51,6 @@ video.crossOrigin = 'anonymous';
 video.loop = true;
 video.muted = true;
 video.play().catch(err => console.warn('Error vídeo:', err));
-  videoTexture.flipY = false;
 
 const videoTexture = new THREE.VideoTexture(video);
 videoTexture.encoding = THREE.sRGBEncoding;
@@ -100,6 +99,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
