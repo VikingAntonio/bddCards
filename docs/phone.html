@@ -42,6 +42,7 @@ controls.enableDamping = true;
 
 // Luces
 scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+scene.add(new THREE.HemisphereLight(0xffffff, 0x000000, 1.2)); // Luz ambiental de cielo
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
 dirLight.position.set(5, 10, 7);
 scene.add(dirLight);
@@ -70,11 +71,18 @@ loader.load(
 
     // Buscar el mesh de la pantalla
     const meshPantalla = model.getObjectByName('Ruby_r0_396078_g0_501961_b0_65098_a1_texture_path');
+
     if (meshPantalla) {
-      meshPantalla.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+      meshPantalla.material = new THREE.MeshBasicMaterial({
+        map: videoTexture,
+        color: 0xffffff,
+        side: THREE.DoubleSide
+      });
       meshPantalla.material.needsUpdate = true;
+
+      console.log('🎬 Video aplicado a:', meshPantalla.name);
     } else {
-      console.warn("No se encontró el mesh de la pantalla.");
+      console.warn("⚠️ No se encontró el mesh de la pantalla.");
     }
 
     scene.add(model);
