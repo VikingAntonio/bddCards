@@ -165,22 +165,22 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/jpg",
+            "mimeType" : "image/jpeg",
             "name" : "Image_2",
             "uri" : "Image_2.jpg"
         },
         {
-            "mimeType" : "image/jpg",
+            "mimeType" : "image/jpeg",
             "name" : "Image_3",
             "uri" : "Image_3.jpg"
         },
         {
-            "mimeType" : "image/jpg",
+            "mimeType" : "image/jpeg",
             "name" : "Image_0",
             "uri" : "Image_0.jpg"
         },
         {
-            "mimeType" : "image/jpg",
+            "mimeType" : "image/jpeg",
             "name" : "Image_1",
             "uri" : "Image_1.jpg"
         }
