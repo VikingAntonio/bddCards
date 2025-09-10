@@ -308,24 +308,24 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/png",
+            "mimeType" : "image/jpg",
             "name" : "Image_2",
-            "uri" : "Image_2.png"
+            "uri" : "Image_2.jpg"
         },
         {
-            "mimeType" : "image/png",
+            "mimeType" : "image/jpg",
             "name" : "Image_3",
-            "uri" : "Image_3.png"
+            "uri" : "Image_3.jpg"
         },
         {
-            "mimeType" : "image/png",
+            "mimeType" : "image/jpg",
             "name" : "Image_0",
-            "uri" : "Image_0.png"
+            "uri" : "Image_0.jpg"
         },
         {
-            "mimeType" : "image/png",
+            "mimeType" : "image/jpg",
             "name" : "Image_1",
-            "uri" : "Image_1.png"
+            "uri" : "Image_1.jpg"
         }
     ],
     "accessors" : [
