@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Model Viewer</title>
+
+  <style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Hotspot circular inicial */
+.Hotspot {
+  background-color: rgba(255,87,34,0.9);
+  border: none;
+  border-radius: 50%;       /* círculo */
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover: crece ligeramente */
+.Hotspot:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(255,87,34,0.7);
+}
+
+/* Texto oculto inicialmente */
+.Hotspot span {
+  position: absolute;
+  top: 50%;
+  left: 110%; /* aparece a la derecha del círculo */
+  transform: translateY(-50%);
+  background-color: rgba(255,87,34,0.9);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, left 0.2s;
+  font-size: 14px;
+}
+
+/* Mostrar texto al hover */
+.Hotspot:hover span {
+  opacity: 1;
+  left: 50px; /* se desplaza ligeramente hacia afuera del círculo */
+}
+
+/* Responsive para móviles: mostrar siempre el texto debajo */
+@media (max-width: 768px) {
+  /* Reducir el tamaño del hotspot para móviles */
+  .Hotspot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;  /* círculo */
+    padding: 0;           /* eliminamos padding para que solo sea el punto */
+  
+  }
+
+  /* Ocultar el texto en móviles */
+  .Hotspot span {
+    display: none;
+  }
+}
+
+/* --- Popup --- */
+/* Fondo del popup */
+#popupPage {
+  display: none; /* siempre oculto al inicio */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedor blanco central tipo página */
+#popupPage .popupContent {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 1000px;
+  min-width: 500px;       
+  max-height: 90%;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+
+/* Iframe horizontal */
+#popupPage iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Botón cerrar */
+#popupPage .closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#popupPage .closeBtn:hover {
+  color: #ff0000;
+}
+
+/* Móvil */
+/* Ajustes móviles */
+@media (max-width: 768px) {
+  #popupPage .popupContent {
+    width: 100%;
+    max-width: unset;
+    min-width: unset;
+    padding: 15px;
+  }
+
+  #popupPage iframe {
+    width: 100%;
+    height: 300px; /* rectangular horizontal */
+    border-radius: 8px;
+  }
+}
+
+
+model-viewer {
+  width: 40%;
+  height: 500px;
+  margin: auto;
+}
+
+@media (max-width: 992px) {
+  model-viewer {
+    width: 75%;
+    height: 900px;
+    order: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <model-viewer
+    id="reveal" 
+    loading="eager"
+    poster="./pos.png"
+    src="https://vikingantonio.github.io/bddCards/assets/pos/newpos.glb"  
+    shadow-intensity="5" 
+    camera-controls
+    ar-scale="fixed"
+    alt="element3D"
+    exposure="1"
+    environment-image="neutral"
+    style="height: 500px;"
+>
+    <button class="Hotspot" slot="hotspot-2" data-url="https://example.com/page2.html" data-position="0.40770454585983007m 0.9672930089115683m 0.04329223379725977m" data-normal="0.015678994483568142m 0.4509506844288455m -0.8924111436692955m" data-visibility-attribute="visible">
+    <span>Customer Display</span>
+  </button>
+
+  <button class="Hotspot" slot="hotspot-3" data-url="https://example.com/page2.html" data-position="0.4197952344028965m 1.0909816645323422m 0.2531016430319083m" data-normal="-0.01611408667222998m 0.398087852078337m 0.9172057556722897m" data-visibility-attribute="visible">
+    <span>POS Workstation</span>
+  </button>
+
+  <button class="Hotspot" slot="hotspot-4" data-url="https://example.com/page3.html" data-position="0.4144973131186613m 0.7980432610523819m 0.33259491428051985m" data-normal="-0.01756649422048951m -5.29739133255446e-7m 0.999845697235589m" data-visibility-attribute="visible">
+    <span>Cash Drawer</span>
+  </button>
+  <button class="Hotspot" slot="hotspot-5" data-url="https://example.com/page3.html" data-position="-0.0018118659789206348m 0.9783368921525447m 0.2278786500073488m" data-normal="-0.017333282584667743m -0.14420561883568098m 0.9893959252043939m" data-visibility-attribute="visible">
+        <span>Printer</span>
+  </button>
+</model-viewer>
+<div id="popupPage">
+  <div class="popupContent">
+    <button class="closeBtn">×</button>
+    <iframe id="popupIframe" src="" allowfullscreen></iframe>
+  </div>
+</div>
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" type="module"></script>
+</body>
+</html>
